@@ -44,7 +44,6 @@ io.on("connection", (socket) => {
 
   socket.on("sala:entrar", (nombreSala) => {
     const usuario = usuariosConectados.find(u => u.socketId === socket.id)
-    if (!usuario) return
 
     salas.forEach(sala => socket.leave(sala))
     socket.join(nombreSala)
@@ -53,8 +52,6 @@ io.on("connection", (socket) => {
 
   socket.on("sala:salir", (nombreSala) => {
     const usuario = usuariosConectados.find(u => u.socketId === socket.id)
-    if (!usuario) return
-
     socket.leave(nombreSala)
     socket.join("general")
     io.to("general").emit("chat:sistema", `${usuario.nombre} ha vuelto al chat general`)
@@ -62,7 +59,6 @@ io.on("connection", (socket) => {
 
   socket.on("chat:mensaje", ({ texto, sala, archivo }) => {
     const usuario = usuariosConectados.find(u => u.socketId === socket.id)
-    if (!usuario) return
 
     io.to(sala).emit("chat:mensaje", {
       texto,
@@ -76,7 +72,6 @@ io.on("connection", (socket) => {
   socket.on("privado:mensaje", ({ texto, archivo, destinatarioUid }) => {
     const emisor = usuariosConectados.find(u => u.socketId === socket.id)
     const destinatario = usuariosConectados.find(u => u.uid === destinatarioUid)
-    if (!emisor || !destinatario) return
 
     const mensaje = {
       texto,
@@ -94,7 +89,6 @@ io.on("connection", (socket) => {
 
   socket.on("chat:escribiendo", ({ estaEscribiendo, sala }) => {
     const usuario = usuariosConectados.find(u => u.socketId === socket.id)
-    if (!usuario) return
 
     socket.broadcast.to(sala).emit("chat:escribiendo", {
       nombre: usuario.nombre,
@@ -105,7 +99,6 @@ io.on("connection", (socket) => {
   socket.on("privado:escribiendo", ({ estaEscribiendo, destinatarioUid }) => {
     const emisor = usuariosConectados.find(u => u.socketId === socket.id)
     const destinatario = usuariosConectados.find(u => u.uid === destinatarioUid)
-    if (!emisor || !destinatario) return
 
     io.to(destinatario.socketId).emit("privado:escribiendo", {
       nombre: emisor.nombre,

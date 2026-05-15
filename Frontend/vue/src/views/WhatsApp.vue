@@ -98,7 +98,6 @@ function volverGeneral() {
 }
 
 function abrirPrivado(usuario) {
-  if (usuario.uid === usuarioActual.value.uid) return
   usuarioPrivado.value = usuario
   mensajesPrivados.value = []
   escribiendo.value = ''
@@ -121,8 +120,6 @@ function alEscribir() {
 }
 
 function enviarMensaje() {
-  if (!texto.value.trim()) return
-
   if (usuarioPrivado.value) {
     socket.emit('privado:mensaje', {
       texto: texto.value.trim(),
