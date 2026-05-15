@@ -4,11 +4,13 @@ import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 import { io } from 'socket.io-client'
 import { supabase } from '../supabase'
-
+const URL = import.meta.env.PROD 
+  ? 'https://whatsapp-clone-9hh6.onrender.com' 
+  : 'http://localhost:3000'
 const router = useRouter()
 const auth = getAuth()
 
-const socket = io('http://localhost:3000')
+const socket = io(URL)
 
 const usuarioActual = ref(null)
 const usuarios = ref([])
