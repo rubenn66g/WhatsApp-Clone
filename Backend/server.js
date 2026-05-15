@@ -1,19 +1,22 @@
 const express = require("express")
 const http = require("http")
+const path = require("path")
 const { Server } = require("socket.io")
 
 const app = express()
 const server = http.createServer(app)
-const path = require("path") 
-const PORT = process.env.PORT || 3000 
+const PORT = process.env.PORT || 3000
+
+app.use(express.static(path.join(__dirname, "public")))
+
+app.get("/{*path}", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"))
+})
+
 const io = new Server(server, {
   cors: {
     origin: "*",
   }
-})
-app.use(express.static(path.join(__dirname, "public")))
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"))
 })
 
 let usuariosConectados = []
@@ -31,7 +34,6 @@ io.on("connection", (socket) => {
     }
 
     usuariosConectados.push(usuario)
-
     socket.join("general")
 
     socket.emit("usuarios:lista", usuariosConectados)
@@ -45,7 +47,6 @@ io.on("connection", (socket) => {
     if (!usuario) return
 
     salas.forEach(sala => socket.leave(sala))
-
     socket.join(nombreSala)
     io.to(nombreSala).emit("chat:sistema", `${usuario.nombre} se ha unido a ${nombreSala}`)
   })
