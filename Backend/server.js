@@ -15,7 +15,7 @@ app.get("/{*path}", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "https://whatsapp-clone-9hh6.onrender.com",
   }
 })
 
