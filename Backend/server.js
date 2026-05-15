@@ -10,7 +10,7 @@ const io = new Server(server, {
     origin: "*",
   }
 })
-
+app.use(express.static(path.join(__dirname, "public")))
 let usuariosConectados = []
 const salas = ["futbol", "clase"]
 
