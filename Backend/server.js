@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
       foto: usuario.foto,
       sala,
       archivo: archivo || null,
-       timestamp: new Date().toTimeString().slice(0, 5)
+      timestamp: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
     })
   })
 
@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
       privado: true,
       emisorUid: emisor.uid,
       destinatarioUid,
-      timestamp: new Date().toTimeString().slice(0, 5)
+      timestamp: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
     }
 
     io.to(destinatario.socketId).emit("privado:mensaje", mensaje)
