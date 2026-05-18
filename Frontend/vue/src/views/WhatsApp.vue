@@ -266,7 +266,8 @@ const mensajesActivos = () => usuarioPrivado.value ? mensajesPrivados.value : me
                 <span>📄 {{ msg.archivo.nombre }}</span>
                 <a :href="`${msg.archivo.url}?download=`" download class="wa-descarga">⬇ Descargar</a>
               </div>
-
+              
+              <span class="wa-hora">{{ msg.timestamp }}</span>
             </div>
           </div>
         </template>
